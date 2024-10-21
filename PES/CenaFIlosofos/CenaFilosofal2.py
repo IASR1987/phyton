@@ -68,7 +68,7 @@ class Filosofo(threading.Thread):
         print(f"{self.nombre} ha soltado ambos tenedores.")  # Imprime que ha soltado los tenedores
 
     def run(self):
-        """Método que se ejecuta cuando se inicia el hilo del filósofo."""
+        """Métdo que se ejecuta cuando se inicia el hilo del filósofo"""
         while True:  # Ciclo infinito para simular la vida del filósofo
             self.pensando()  # Filósofo comienza a pensar
             if self.cogerTenedorF():  # Intenta coger los tenedores

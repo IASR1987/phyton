@@ -64,7 +64,7 @@ class Filosofo(threading.Thread):
         self.tenedorDerecho.soltarTenedor()  # Suelta el tenedor derecho
         self.tenedorIzquierdo.soltarTenedor()  # Suelta el tenedor izquierdo
         print(f"{self.nombre} deja de comer.")  # Imprime que deja de comer
-        time.sleep(2)
+        time.sleep(1)
         print(f"{self.nombre} ha soltado ambos tenedores.")  # Imprime que ha soltado los tenedores
 
     def run(self):
@@ -80,16 +80,12 @@ class Filosofo(threading.Thread):
 
 
 # Lista de nombres de los filósofos
-nombres = ["Sócrates", "Platón", "Aristóteles", "Heráclito", "Epicuro"]  # Nombres de los filósofos
+nombres = ["Sócrates", "Platón", "Aristóteles", "Heráclito", "Epicuro"]
 
 # Crear los filósofos
 filosofos = [Filosofo(i + 1, nombres[i]) for i in range(5)]  # Crea una lista de filósofos
 
 # Iniciar los hilos de filósofos
 for filosofo in filosofos:
-    filosofo.start()  # Inicia el hilo de cada filósofo
-
-# Espera a que todos los hilos terminen
-for filosofo in filosofos:
-    filosofo.join()  # Espera a que cada filósofo termine su ejecución
+    filosofo.start()
 

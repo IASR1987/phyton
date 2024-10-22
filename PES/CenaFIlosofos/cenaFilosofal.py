@@ -44,44 +44,44 @@ Sugerencias:
     tiempo para reducir la posibilidad de deadlock
 """
 
-import threading  # Importa el módulo threading para crear hilos
-import time       # Importa el módulo time para manejar pausas en la ejecución
-import random     # Importa el módulo random para generar números aleatorios
+import threading
+import time
+import random
 
 # Clase Tenedor
 class Tenedor:
     def __init__(self, id):
         """Inicializa un tenedor con un identificador y un lock para controlar el acceso."""
         self.id = id  # Asigna un identificador al tenedor
-        self.ocupado = threading.Lock()  # Crea un lock para gestionar el acceso concurrente
+        self.ocupado = threading.Lock()  # Crea un lock
 
     def cogerTenedor(self):
-        """Intenta adquirir el tenedor."""
+        """Intenta coger el tenedor."""
         self.ocupado.acquire()  # Adquiere el lock para usar el tenedor
 
     def soltarTenedor(self):
-        """Libera el tenedor."""
+        """Suelta el tenedor."""
         self.ocupado.release()  # Libera el lock para permitir que otros filósofos lo usen
 
 
 # Crear los tenedores
 tenedores = []  # Lista para almacenar los tenedores
 for i in range(5):  # Crea 5 tenedores
-    tenedores.append(Tenedor(i))  # Añade tenedores a la lista
+    tenedores.append(Tenedor(i))
 
 # Clase Filosofo
 class Filosofo(threading.Thread):
     def __init__(self, id, nombre):
         """Inicializa un filósofo con un id y un nombre."""
-        threading.Thread.__init__(self)  # Llama al constructor de la clase Thread
-        self.id = id  # Asigna un identificador al filósofo
-        self.nombre = nombre  # Asigna un nombre al filósofo
+        threading.Thread.__init__(self)
+        self.id = id
+        self.nombre = nombre
         # Asigna los tenedores izquierdo y derecho basándose en el id del filósofo
         self.tenedorDerecho = tenedores[(id - 1)]  # Tenedor a la derecha
         self.tenedorIzquierdo = tenedores[id % 5]  # Tenedor a la izquierda
 
     def pensando(self):
-        """Simula el estado de pensar del filósofo."""
+        """Filosofo pensando"""
         print(f"{self.nombre} pensando...")  # Imprime que el filósofo está pensando
         time.sleep(random.randint(10, 15))  # Espera un tiempo aleatorio entre 10 y 15 segundos
 
@@ -90,15 +90,15 @@ class Filosofo(threading.Thread):
         # Si el id del filósofo es par, intenta coger primero el tenedor de la derecha, luego el de la izquierda
         if self.id % 2 == 0:
             self.tenedorDerecho.cogerTenedor()  # Intenta adquirir el tenedor derecho
-            print(f"{self.nombre} está cogiendo el tenedor Derecho {self.id - 1}")  # Imprime que ha cogido el derecho
+            print(f"{self.nombre} está cogiendo el tenedor {self.id - 1}")
             self.tenedorIzquierdo.cogerTenedor()  # Intenta adquirir el tenedor izquierdo
-            print(f"{self.nombre} está cogiendo el tenedor Izquierdo {self.id % 5}")  # Imprime que ha cogido el izquierdo
+            print(f"{self.nombre} está cogiendo el tenedor {self.id % 5}")
         else:
             # Si el id del filósofo es impar, intenta coger primero el tenedor de la izquierda, luego el de la derecha
             self.tenedorIzquierdo.cogerTenedor()  # Intenta adquirir el tenedor izquierdo
-            print(f"{self.nombre} está cogiendo el tenedor Izquierdo {self.id % 5}")  # Imprime que ha cogido el izquierdo
+            print(f"{self.nombre} está cogiendo el tenedor {self.id % 5}")
             self.tenedorDerecho.cogerTenedor()  # Intenta adquirir el tenedor derecho
-            print(f"{self.nombre} está cogiendo el tenedor Derecho {self.id - 1}")  # Imprime que ha cogido el derecho
+            print(f"{self.nombre} está cogiendo el tenedor {self.id - 1}")
 
         print(f"{self.nombre} está comiendo")  # Imprime que el filósofo está comiendo
         time.sleep(10)  # Simula el tiempo que pasa comiendo
@@ -106,30 +106,27 @@ class Filosofo(threading.Thread):
     def soltarTenedor(self):
         """Libera ambos tenedores."""
         self.tenedorDerecho.soltarTenedor()  # Libera el tenedor derecho
-        print(f"{self.nombre} está soltando el tenedor Derecho {self.id - 1}")  # Imprime que está soltando el derecho
+        print(f"{self.nombre} está soltando el tenedor {self.id - 1}")  # Imprime que está soltando el derecho
         time.sleep(4)  # Espera un momento antes de soltar el izquierdo
 
         self.tenedorIzquierdo.soltarTenedor()  # Libera el tenedor izquierdo
-        print(f"{self.nombre} está soltando el tenedor Izquierdo {self.id % 5}")  # Imprime que está soltando el izquierdo
+        print(f"{self.nombre} está soltando el tenedor {self.id % 5}")  # Imprime que está soltando el izquierdo
 
     def run(self):
         """Métdo que se ejecuta cuando se inicia el hilo del filósofo."""
         while True:  # Ciclo infinito para simular la vida del filósofo
             self.pensando()  # Filósofo comienza a pensar
-            self.cogerTenedor()  # Intenta coger los tenedores
-            self.soltarTenedor()  # Libera los tenedores después de comer
+            self.cogerTenedor()  # Se intenta coger los tenedores
+            self.soltarTenedor()  # Se sueltan los tenedores después de comer
 
 
 # Lista de nombres de los filósofos
-nombres = ["Sócrates", "Platón", "Aristóteles", "Heráclito", "Epicuro"]  # Nombres de los filósofos
+nombres = ["Sócrates", "Platón", "Aristóteles", "Heráclito", "Epicuro"]
 
 # Crear los filósofos
-filosofos = [Filosofo(i + 1, nombres[i]) for i in range(5)]  # Crea una lista de filósofos
+filosofos = [Filosofo(i + 1, nombres[i]) for i in range(5)]
 
 # Iniciar los hilos de filósofos
 for i in range(5):
-    filosofos[i].start()  # Inicia el hilo de cada filósofo
+    filosofos[i].start()
 
-# Espera a que todos los hilos terminen
-for filosofo in filosofos:
-    filosofo.join()  # Espera a que cada filósofo termine su ejecución

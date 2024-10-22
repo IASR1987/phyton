@@ -110,7 +110,7 @@ class Filosofo(threading.Thread):
         time.sleep(4)  # Espera un momento antes de soltar el izquierdo
 
         self.tenedorIzquierdo.soltarTenedor()  # Libera el tenedor izquierdo
-        print(f"{self.nombre} está soltando el tenedor {self.id % 5}")  # Imprime que está soltando el izquierdo
+        print(f"{self.nombre} está soltando el tenedor {self.id % 5}")  # Imprime que está suelta el izquierdo
 
     def run(self):
         """Métdo que se ejecuta cuando se inicia el hilo del filósofo."""
